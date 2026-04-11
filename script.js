@@ -30,7 +30,44 @@ const RECIPES_DATABASE = [
             'Cool on baking sheets for 2 minutes, then transfer to wire racks',
             'Enjoy warm with a glass of milk!'
         ]
-    }
+    },
+    {
+    id: '2',
+    name: 'Simple Chicken Paella',
+    origin: 'Spanish',
+    description: 'A simple, flavour-packed chicken paella with smoky spices, tender rice, and a fresh lemon finish. Perfect for a family dinner.',
+    servings: '4 people',
+    dateCreated: '2026-04-11',
+    ingredients: [
+        '2 chicken breasts (cut into chunks)',
+        '1 onion (chopped)',
+        '2 cloves garlic (crushed)',
+        '1 red pepper (sliced)',
+        '1 tsp smoked paprika',
+        '1/2 tsp saffron (optional)',
+        '250g paella rice',
+        '750ml chicken stock',
+        '1 tin chopped tomatoes (optional)',
+        '100g frozen peas',
+        'Olive oil',
+        'Salt & pepper',
+        'Lemon wedges'
+    ],
+    steps: [
+        'Heat olive oil in a large pan over medium-high heat',
+        'Cook chicken for 5–6 minutes until lightly golden, then remove and set aside',
+        'In the same pan, cook onion and red pepper for 3–4 minutes until soft',
+        'Add garlic and cook for 1 minute',
+        'Stir in smoked paprika and saffron',
+        'Add rice and cook for 1–2 minutes to coat in flavour',
+        'Pour in chicken stock (and tomatoes if using) and stir once',
+        'Add the chicken back into the pan',
+        'Simmer on medium-low heat for 15–20 minutes without stirring much',
+        'Add peas in the last 5 minutes of cooking',
+        'Season with salt and pepper to taste',
+        'Serve with lemon wedges and enjoy'
+    ]
+}
 ];
 
 // ==================== RECIPE MANAGER ==================== //
@@ -58,14 +95,20 @@ class UIManager {
     }
 
     setupEventListeners() {
-        // Navigation
-        document.getElementById('dashboardBtn').addEventListener('click', () => this.showView('dashboard'));
-        document.getElementById('backBtn').addEventListener('click', () => this.showView('dashboard'));
-
-        // Set today's date as default (if date input exists)
-        const dateInput = document.getElementById('recipeDate');
-        if (dateInput) {
-            dateInput.valueAsDate = new Date();
+        try {
+            // Navigation - use safe element access
+            const dashboardBtn = document.getElementById('dashboardBtn');
+            const backBtn = document.getElementById('backBtn');
+            
+            if (dashboardBtn) {
+                dashboardBtn.addEventListener('click', () => this.showView('dashboard'));
+            }
+            
+            if (backBtn) {
+                backBtn.addEventListener('click', () => this.showView('dashboard'));
+            }
+        } catch (e) {
+            console.error('Error setting up event listeners:', e);
         }
     }
 
@@ -86,42 +129,51 @@ class UIManager {
     }
 
     renderDashboard() {
-        const recipes = this.recipeManager.getAllRecipes();
-        const grid = document.getElementById('recipesGrid');
-        const countEl = document.getElementById('recipeCount');
+        try {
+            const recipes = this.recipeManager.getAllRecipes();
+            const grid = document.getElementById('recipesGrid');
+            const countEl = document.getElementById('recipeCount');
 
-        countEl.textContent = `${recipes.length} recipe${recipes.length !== 1 ? 's' : ''}`;
+            if (!grid || !countEl) {
+                console.error('Dashboard elements not found');
+                return;
+            }
 
-        if (recipes.length === 0) {
-            grid.innerHTML = `
-                <div class="empty-state" style="grid-column: 1/-1;">
-                    <div class="empty-state-icon">👩‍🍳</div>
-                    <h2>No recipes yet</h2>
-                    <p>Click "New Recipe" to add your first recipe!</p>
+            countEl.textContent = `${recipes.length} recipe${recipes.length !== 1 ? 's' : ''}`;
+
+            if (recipes.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <div class="empty-state-icon">👩‍🍳</div>
+                        <h2>No recipes yet</h2>
+                        <p>Add recipes to the RECIPES_DATABASE in script.js</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = recipes.map(recipe => `
+                <div class="recipe-card">
+                    <div class="recipe-card-image">
+                        ${this.getRecipeImageOrEmoji(recipe.name)}
+                    </div>
+                    <div class="recipe-card-content">
+                        <h3 class="recipe-card-title">${this.escapeHtml(recipe.name)}</h3>
+                        <div class="recipe-card-meta">
+                            ${recipe.origin ? `<span class="recipe-meta-item">🌍 ${this.escapeHtml(recipe.origin)}</span>` : ''}
+                            ${recipe.servings ? `<span class="recipe-meta-item">🍽️ ${this.escapeHtml(recipe.servings)}</span>` : ''}
+                            ${recipe.dateCreated ? `<span class="recipe-meta-item">📅 ${this.formatDate(recipe.dateCreated)}</span>` : ''}
+                        </div>
+                        ${recipe.description ? `<p class="recipe-card-description">${this.escapeHtml(recipe.description.substring(0, 100))}${recipe.description.length > 100 ? '...' : ''}</p>` : ''}
+                        <div class="recipe-card-footer">
+                            <button class="btn-view" onclick="ui.viewRecipe('${recipe.id}')">View Recipe</button>
+                        </div>
+                    </div>
                 </div>
-            `;
-            return;
+            `).join('');
+        } catch (e) {
+            console.error('Error rendering dashboard:', e);
         }
-
-        grid.innerHTML = recipes.map(recipe => `
-            <div class="recipe-card">
-                <div class="recipe-card-image">
-                    ${this.getRecipeImageOrEmoji(recipe.name)}
-                </div>
-                <div class="recipe-card-content">
-                    <h3 class="recipe-card-title">${this.escapeHtml(recipe.name)}</h3>
-                    <div class="recipe-card-meta">
-                        ${recipe.origin ? `<span class="recipe-meta-item">🌍 ${this.escapeHtml(recipe.origin)}</span>` : ''}
-                        ${recipe.servings ? `<span class="recipe-meta-item">🍽️ ${this.escapeHtml(recipe.servings)}</span>` : ''}
-                        ${recipe.dateCreated ? `<span class="recipe-meta-item">📅 ${this.formatDate(recipe.dateCreated)}</span>` : ''}
-                    </div>
-                    ${recipe.description ? `<p class="recipe-card-description">${this.escapeHtml(recipe.description.substring(0, 100))}${recipe.description.length > 100 ? '...' : ''}</p>` : ''}
-                    <div class="recipe-card-footer">
-                        <button class="btn-view" onclick="ui.viewRecipe('${recipe.id}')">View Recipe</button>
-                    </div>
-                </div>
-            </div>
-        `).join('');
     }
 
     getRecipeImageOrEmoji(recipeName) {
@@ -135,85 +187,96 @@ class UIManager {
     }
 
     viewRecipe(id) {
-        const recipe = this.recipeManager.getRecipe(id);
-        if (!recipe) return;
+        try {
+            const recipe = this.recipeManager.getRecipe(id);
+            if (!recipe) {
+                console.error('Recipe not found:', id);
+                return;
+            }
 
-        this.recipeManager.currentRecipeId = id;
-        const detailDiv = document.getElementById('recipeDetail');
-        
-        const ingredientsHtml = recipe.ingredients.map(ing => `
-            <div class="ingredient-item">
-                <input type="checkbox" id="ing-${recipe.id}-${recipe.ingredients.indexOf(ing)}">
-                <label for="ing-${recipe.id}-${recipe.ingredients.indexOf(ing)}" style="display: inline;">${this.escapeHtml(ing)}</label>
-            </div>
-        `).join('');
-
-        const stepsHtml = recipe.steps.map((step, idx) => `
-            <div class="step-item">
-                <div class="step-number">${idx + 1}</div>
-                <div class="step-content">${this.escapeHtml(step)}</div>
-            </div>
-        `).join('');
-
-        detailDiv.innerHTML = `
-        detailDiv.innerHTML = `
-            <img src="images/${recipe.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}.jpg" 
-                 alt="${this.escapeHtml(recipe.name)}" 
-                 class="recipe-detail-banner"
-                 onerror="loadDetailImageWithFallback(this, '${recipe.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}')" />
+            this.recipeManager.currentRecipeId = id;
+            const detailDiv = document.getElementById('recipeDetail');
             
-            <div class="recipe-detail-content">
-                <div class="recipe-detail-header">
-                    <div class="recipe-detail-title">
-                        <h1>${this.escapeHtml(recipe.name)}</h1>
+            if (!detailDiv) {
+                console.error('Recipe detail element not found');
+                return;
+            }
+
+            const ingredientsHtml = recipe.ingredients.map(ing => `
+                <div class="ingredient-item">
+                    <input type="checkbox" id="ing-${recipe.id}-${recipe.ingredients.indexOf(ing)}">
+                    <label for="ing-${recipe.id}-${recipe.ingredients.indexOf(ing)}" style="display: inline;">${this.escapeHtml(ing)}</label>
+                </div>
+            `).join('');
+
+            const stepsHtml = recipe.steps.map((step, idx) => `
+                <div class="step-item">
+                    <div class="step-number">${idx + 1}</div>
+                    <div class="step-content">${this.escapeHtml(step)}</div>
+                </div>
+            `).join('');
+
+            detailDiv.innerHTML = `
+                <img src="images/${recipe.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}.jpg" 
+                     alt="${this.escapeHtml(recipe.name)}" 
+                     class="recipe-detail-banner"
+                     onerror="loadDetailImageWithFallback(this, '${recipe.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}')" />
+                
+                <div class="recipe-detail-content">
+                    <div class="recipe-detail-header">
+                        <div class="recipe-detail-title">
+                            <h1>${this.escapeHtml(recipe.name)}</h1>
+                        </div>
+                    </div>
+
+                    <div class="recipe-detail-meta">
+                        ${recipe.origin ? `
+                            <div class="meta-item">
+                                <div class="meta-label">Origin</div>
+                                <div class="meta-value">${this.escapeHtml(recipe.origin)}</div>
+                            </div>
+                        ` : ''}
+                        ${recipe.servings ? `
+                            <div class="meta-item">
+                                <div class="meta-label">Servings</div>
+                                <div class="meta-value">${this.escapeHtml(recipe.servings)}</div>
+                            </div>
+                        ` : ''}
+                        ${recipe.dateCreated ? `
+                            <div class="meta-item">
+                                <div class="meta-label">Date Created</div>
+                                <div class="meta-value">${this.formatDate(recipe.dateCreated)}</div>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    ${recipe.description ? `<div class="recipe-description">${this.escapeHtml(recipe.description)}</div>` : ''}
+
+                    <div class="recipe-section">
+                        <h2>Ingredients</h2>
+                        <div class="ingredients-list">
+                            ${ingredientsHtml}
+                        </div>
+                    </div>
+
+                    <div class="recipe-section">
+                        <h2>Method</h2>
+                        <div class="steps-list">
+                            ${stepsHtml}
+                        </div>
+                    </div>
+
+                    <div class="detail-actions">
+                        <button class="btn-print-pdf" onclick="ui.exportToPDF('${recipe.id}')">📥 Export to PDF</button>
+                        <button class="btn-print-pdf" style="background: linear-gradient(135deg, #667eea, #764ba2); flex: 0.5;" onclick="window.print()">🖨️ Print</button>
                     </div>
                 </div>
+            `;
 
-                <div class="recipe-detail-meta">
-                    ${recipe.origin ? `
-                        <div class="meta-item">
-                            <div class="meta-label">Origin</div>
-                            <div class="meta-value">${this.escapeHtml(recipe.origin)}</div>
-                        </div>
-                    ` : ''}
-                    ${recipe.servings ? `
-                        <div class="meta-item">
-                            <div class="meta-label">Servings</div>
-                            <div class="meta-value">${this.escapeHtml(recipe.servings)}</div>
-                        </div>
-                    ` : ''}
-                    ${recipe.dateCreated ? `
-                        <div class="meta-item">
-                            <div class="meta-label">Date Created</div>
-                            <div class="meta-value">${this.formatDate(recipe.dateCreated)}</div>
-                        </div>
-                    ` : ''}
-                </div>
-
-                ${recipe.description ? `<div class="recipe-description">${this.escapeHtml(recipe.description)}</div>` : ''}
-
-                <div class="recipe-section">
-                    <h2>Ingredients</h2>
-                    <div class="ingredients-list">
-                        ${ingredientsHtml}
-                    </div>
-                </div>
-
-                <div class="recipe-section">
-                    <h2>Method</h2>
-                    <div class="steps-list">
-                        ${stepsHtml}
-                    </div>
-                </div>
-
-                <div class="detail-actions">
-                    <button class="btn-print-pdf" onclick="ui.exportToPDF('${recipe.id}')">📥 Export to PDF</button>
-                    <button class="btn-print-pdf" style="background: linear-gradient(135deg, #667eea, #764ba2); flex: 0.5;" onclick="window.print()">🖨️ Print</button>
-                </div>
-            </div>
-        `;
-
-        this.showView('recipe');
+            this.showView('recipe');
+        } catch (e) {
+            console.error('Error viewing recipe:', e);
+        }
     }
 
     exportToPDF(id) {
@@ -255,8 +318,27 @@ class UIManager {
 }
 
 // ==================== INITIALIZATION ==================== //
-const recipeManager = new RecipeManager();
-const ui = new UIManager(recipeManager);
+// Wait for DOM to be ready before initializing
+function initializeApp() {
+    try {
+        // Initialize the app
+        window.recipeManager = new RecipeManager();
+        window.ui = new UIManager(window.recipeManager);
+        console.log('App initialized successfully');
+    } catch (e) {
+        console.error('Error initializing app:', e);
+        // Show error message to user
+        document.body.innerHTML = '<div style="padding: 20px; font-family: Arial; color: red;">Error initializing app. Check console.</div>';
+    }
+}
+
+// Check if DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+    // DOM is already ready
+    initializeApp();
+}
 
 // ==================== HELPER FUNCTIONS ==================== //
 // Image loading helper that tries multiple formats
