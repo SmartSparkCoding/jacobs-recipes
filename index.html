@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jacob's Recipes</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo">👨‍🍳 Jacob's Recipes</div>
+            <div class="nav-buttons">
+                <button class="btn-nav" id="dashboardBtn">Dashboard</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Dashboard View -->
+        <div id="dashboardView" class="view active">
+            <div class="dashboard-header">
+                <h1>Your Recipe Collection</h1>
+                <p id="recipeCount">Loading recipes...</p>
+            </div>
+            <div id="recipesGrid" class="recipes-grid">
+                <!-- Recipes will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Recipe Detail View -->
+        <div id="recipeDetailView" class="view">
+            <button class="btn-back" id="backBtn">← Back to Dashboard</button>
+            <div id="recipeDetail" class="recipe-detail">
+                <!-- Recipe detail will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
