@@ -76,6 +76,89 @@ const RECIPES_DATABASE = [
         'Add 140g sliced chicken and heat through for 1–2 minutes',
         'Taste and adjust seasoning if needed, then serve immediately'
     ]
+},
+{
+    id: '3',
+    name: 'Flapjacks',
+    origin: 'Ashford School Food Department',
+    description: 'Classic golden flapjacks made with oats, sugar, and syrup. Soft when warm and crisp as they cool.',
+    servings: '8–12 pieces',
+    dateCreated: '2026-04-16',
+    ingredients: [
+        '250g rolled oats',
+        '100g sugar (any kind)',
+        '100g margarine',
+        '1 tbsp golden syrup'
+    ],
+    steps: [
+        'Preheat the oven to 190°C (Gas mark 5)',
+        'Line a square tin with parchment paper',
+        'Place 100g margarine and 1 tbsp golden syrup into a saucepan and melt gently over low heat',
+        'In a large bowl, mix 250g rolled oats and 100g sugar',
+        'Pour the melted mixture into the oats and mix well',
+        'Press the mixture into the lined tin and flatten using the back of a spoon',
+        'Bake for approximately 20 minutes',
+        'Allow to cool for 5 minutes, then cut into squares; it will firm up as it cools'
+    ]
+},
+{
+    id: '4',
+    name: 'Jam Buns',
+    origin: 'Ashford School Food Department',
+    description: 'Soft, lightly sweet buns with a jam centre and a slightly crisp sugary coating.',
+    servings: '10–12 buns',
+    dateCreated: '2026-04-16',
+    ingredients: [
+        '40g butter or margarine',
+        '115g self-raising flour',
+        '55g sugar',
+        '2–3 tbsp milk',
+        'Jam',
+        'Demerara sugar'
+    ],
+    steps: [
+        'Preheat the oven to 180°C (Gas mark 5)',
+        'Rub 40g butter or margarine into 115g self-raising flour until it resembles breadcrumbs',
+        'Stir in 55g sugar',
+        'Add milk gradually and mix until a dough forms',
+        'Roll the dough into a sausage shape',
+        'Sprinkle demerara sugar onto a tray and roll the dough in it',
+        'Cut into rounds approximately 2cm thick',
+        'Place onto a lined baking tray and make a dip in the centre of each',
+        'Add about 1/3 teaspoon of jam into each centre and partially cover with dough',
+        'Bake for approximately 15 minutes or until golden brown'
+    ]
+},
+{
+    id: '5',
+    name: "Millie’s Style Cookies",
+    origin: 'Ashford School Food Department',
+    description: 'Soft, chewy cookies with a slightly crisp edge and gooey chocolate chips throughout.',
+    servings: '8–10 cookies',
+    dateCreated: '2026-04-16',
+    ingredients: [
+        '62g butter',
+        '62g caster sugar',
+        '55g light brown sugar',
+        '1/2 egg',
+        '1/2 tsp vanilla extract',
+        'Pinch of salt',
+        '112g self-raising flour',
+        '100g chocolate chips'
+    ],
+    steps: [
+        'Preheat the oven to 180°C (Gas mark 4)',
+        'Cream 62g butter and 62g caster sugar until light and fluffy',
+        'Beat the egg and add half to the mixture',
+        'Add 1/2 tsp vanilla extract',
+        'Sieve in 112g self-raising flour and mix',
+        'Add 55g light brown sugar and mix in',
+        'Stir in 100g chocolate chips until a dough forms',
+        'Roll into golf ball-sized portions',
+        'Place on a lined baking tray, leaving space between each',
+        'Bake for 10–15 minutes until golden',
+        'Allow to cool before serving'
+    ]
 }
 ];
 
