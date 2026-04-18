@@ -159,6 +159,41 @@ const RECIPES_DATABASE = [
         'Bake for 10–15 minutes until golden',
         'Allow to cool before serving'
     ]
+},
+{
+    id: '6',
+    name: 'Brown Butter Chocolate Chip Banana Bread',
+    origin: 'Original Recipe Creator',
+    description: 'A rich, soft banana bread made with nutty brown butter and loaded with chocolate chips for a deep, indulgent flavour.',
+    servings: '6 people',
+    dateCreated: '2026-04-16',
+    ingredients: [
+        '3 ripe bananas',
+        '9 tbsp unsalted butter',
+        '1 large egg',
+        '150g brown sugar (approx. 3/4 cup)',
+        '50g white sugar (approx. 1/4 cup)',
+        '190g plain flour (approx. 1 1/2 cups)',
+        '1 tsp baking soda',
+        '1/2 tsp baking powder',
+        '1/2 tsp salt',
+        '1 tsp cinnamon',
+        '1 tsp vanilla extract',
+        '150–200g chocolate chips'
+    ],
+    steps: [
+        'Add 9 tbsp butter to a saucepan over medium heat and cook until it melts, foams, and turns golden brown with a nutty smell, then pour into a bowl and cool slightly (about 5 minutes)',
+        'In a large bowl, mash 3 ripe bananas until mostly smooth',
+        'Add the browned butter, 150g brown sugar, 50g white sugar, 1 egg, and 1 tsp vanilla extract, then whisk for 1–2 minutes until smooth and glossy',
+        'Add 190g flour, 1 tsp baking soda, 1/2 tsp baking powder, 1/2 tsp salt, and 1 tsp cinnamon, then mix thoroughly until fully combined',
+        'Preheat the oven to 175°C',
+        'Fold in about 150g chocolate chips, saving some for topping',
+        'Line or grease a loaf tin and pour in the batter',
+        'Sprinkle remaining chocolate chips on top',
+        'Bake for 60 minutes, covering loosely with foil halfway through to prevent over-browning',
+        'Check with a toothpick; it should come out with a few moist crumbs (not wet batter)',
+        'Allow to cool slightly, then slice and serve'
+    ]
 }
 ];
 
